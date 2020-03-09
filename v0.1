@@ -6,16 +6,16 @@ exampleFile = open('Csv')
 exampleReader = csv.reader(exampleFile)
 hist = list(exampleReader)
 
-def nextRecord():
+def showRecord(curRec):
   print('#',curRec)
   for a in range(len(hist[curRec])):
     print(str(a)+".",hist[curRec][a])
 
 curRec =1
-curRecMax = len(hist)
+curRecMax = len(hist)-1
 print(curRecMax)
 
-nextRecord()
+showRecord(curRec)
 
 while True:
   a = input('(n)ext, (p)revious')
@@ -23,12 +23,17 @@ while True:
   if (a =='n'):
     if (curRec<curRecMax):
       curRec+=1;
-      nextRecord()
+      showRecord(curRec)
     else:
       curRec=1
-      nextRecord()
+      showRecord(curRec)
   if (a =='p'):
-    curRec-=1
+    if (curRec>1):
+      curRec-=1
+      showRecord(curRec)
+    else:
+      curRec = curRecMax
+      showRecord(curRec)
   
   
   
