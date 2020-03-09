@@ -1,0 +1,34 @@
+import csv
+import os
+
+exampleFile = open('Csv')
+
+exampleReader = csv.reader(exampleFile)
+hist = list(exampleReader)
+
+def nextRecord():
+  print('#',curRec)
+  for a in range(len(hist[curRec])):
+    print(str(a)+".",hist[curRec][a])
+
+curRec =1
+curRecMax = len(hist)
+print(curRecMax)
+
+nextRecord()
+
+while True:
+  a = input('(n)ext, (p)revious')
+  os.system('clear')
+  if (a =='n'):
+    if (curRec<curRecMax):
+      curRec+=1;
+      nextRecord()
+    else:
+      curRec=1
+      nextRecord()
+  if (a =='p'):
+    curRec-=1
+  
+  
+  
