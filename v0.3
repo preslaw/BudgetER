@@ -1,0 +1,63 @@
+import csv
+import os
+
+exampleFile = open('CSV')
+
+exampleReader = csv.reader(exampleFile)
+hist = list(exampleReader)
+
+categories ={"a":"(a)llegro", "m":"(m)ieszkanie", "r":"(r)achunki",
+             "o":"r(o)zrywka", "p":"a(p)teka", "z":"(z)akupy", "w":"(w)płata"}
+
+def showCategories():
+  print("")
+  for a in categories:
+    print("  ",categories[a])
+  print("")
+
+def addCategoryField(hist):
+  for a in range(len(hist)):
+    hist[a].append("n/a")
+
+def showRecord(curRec):
+  print('#',curRec)
+  for a in range(len(hist[curRec])):
+    print(str(a)+".",hist[curRec][a])
+    
+def addRecord(curRec):
+  if (len(hist[curRec])>11):
+      print('category already added')
+  print(categories.values())
+  cat = str(input('Please choose category'))
+  hist[curRec].append(categories[cat][1:2]+ categories[cat][3:])
+  os.system('clear')
+  showRecord(curRec)
+
+curRec =1
+curRecMax = len(hist)-1
+print(curRecMax)
+
+addCategoryField(hist)
+showRecord(curRec)
+
+while True:
+  os.system('clear')
+  showRecord(curRec)
+  showCategories()
+  a = input('(n)ext, (p)revious')
+  if (a =='n'):
+    if (curRec<curRecMax):
+      curRec+=1;
+      showRecord(curRec)
+    else:
+      curRec=1
+      showRecord(curRec)
+  if (a =='p'):
+    if (curRec>1):
+      curRec-=1
+      showRecord(curRec)
+    else:
+      curRec = curRecMax
+      showRecord(curRec)
+  if (a in categories):
+    hist[curRec][11] = (categories[a])
