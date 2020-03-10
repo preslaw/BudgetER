@@ -1,0 +1,68 @@
+import csv
+import os
+
+exampleFile = open('CSV')
+
+exampleReader = csv.reader(exampleFile)
+hist = list(exampleReader)
+
+categories ={"a":"(a)llegro", "m":"(m)ieszkanie", "r":"(r)achunki",
+             "o":"r(o)zrywka", "p":"a(p)teka", "z":"(z)akupy", "w":"(w)płata"}
+
+def showCategories():
+  print("")
+  for a in categories:
+    print("  ",categories[a])
+  print("")
+
+def addCategoryField(hist):
+  for a in range(len(hist)):
+    hist[a].append("n/a")
+
+def showRecord(curRec):
+  print('#',curRec)
+  for a in range(len(hist[curRec])):
+    print(str(a)+".",hist[curRec][a])
+    
+def sumaAll(hist):
+  sumaOut = 0
+  sumaIn = 0
+  for a in range(1,len(hist)):
+    if (float(hist[a][3])>0):
+      sumaIn+=float(hist[a][3])
+    else:
+      sumaOut+=float(hist[a][3])
+  print("in:",round(sumaIn,2)," out:",round(sumaOut,2),
+        " balance: ",round(sumaIn+sumaOut,2))
+  input('click for more...')
+
+curRec =1
+curRecMax = len(hist)-1
+print(curRecMax)
+sumaAll(hist)
+
+addCategoryField(hist)
+showRecord(curRec)
+
+
+while True:
+  os.system('clear')
+  showRecord(curRec)
+  showCategories()
+  a = input('(<) previous (>) next')
+  if (a =='.' or a ==''):
+    if (curRec<curRecMax):
+      curRec+=1;
+      showRecord(curRec)
+    else:
+      curRec=1
+      showRecord(curRec)
+  if (a ==','):
+    if (curRec>1):
+      curRec-=1
+      showRecord(curRec)
+    else:
+      curRec = curRecMax
+      showRecord(curRec)
+  if (a in categories):
+    hist[curRec][11] = (categories[a])
