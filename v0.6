@@ -1,0 +1,99 @@
+import csv
+import os
+
+exampleFile = open('Csv')
+
+exampleReader = csv.reader(exampleFile)
+hist = list(exampleReader)
+
+categories ={"a":"(a)llegro",
+             "i":"(i)nne",
+             "j":"(j)anek",
+             "k":"(k)redyt",
+             "m":"(m)ieszkanie",
+             "r":"(r)achunki",
+             "o":"r(o)zrywka",
+             "p":"a(p)teka",
+             "s":"(s)amochód",
+             "z":"(z)akupy",
+             "w":"(w)płata",
+             "save":"(save)"
+}
+
+def showCategories():
+  print("")
+  print (categories.values())
+  #for a in categories:
+  #  print("  ",categories[a])
+  #print("")
+
+def addCategoryField(hist):
+  for a in range(len(hist)):
+    hist[a].append("n/a")
+
+def showRecord(curRec):
+  print('#',curRec," / ",RecMax)
+  for a in range(len(hist[curRec])):
+    print(str(a)+".",hist[curRec][a])
+    
+def sumaAll(hist):
+  sumaOut = 0
+  sumaIn = 0
+  for a in range(1,len(hist)):
+    if (float(hist[a][3])>0):
+      sumaIn+=float(hist[a][3])
+    else:
+      sumaOut+=float(hist[a][3])
+  print("in:",round(sumaIn,2)," out:",round(sumaOut,2),
+        " balance: ",round(sumaIn+sumaOut,2))
+  input('click for more...')
+  
+def saveCSV():
+    outputFile = open('csv_updated', mode='w')
+    outputWriter = csv.writer(outputFile)
+    for a in hist:
+      outputWriter.writerow(a)
+      
+def showCategoriesSum():
+  os.system('clear')
+  for a in categories.values():
+    suma = 0
+    for b in hist:
+      if (b[11]==a):
+        suma+=round((float(b[3])),2)
+    print ("suma:", a, round(suma,2))
+  input()
+  
+
+curRec =1
+RecMax = len(hist)-1
+
+a=input()
+#addCategoryField(hist) # dodaję 11 pole i wypełniam n/a
+showRecord(curRec)
+
+while True:
+  os.system('clear')
+  showRecord(curRec)
+  showCategories()
+  a = input('(<)previous (>)next s(u)ma')
+  if (a =='.' or a ==''):
+    if (curRec<RecMax):
+      curRec+=1;
+      showRecord(curRec)
+    else:
+      curRec=1
+      showRecord(curRec)
+  if (a ==','):
+    if (curRec>1):
+      curRec-=1
+      showRecord(curRec)
+    else:
+      curRec = RecMax
+      showRecord(curRec)
+  if (a=='u'):
+    showCategoriesSum()
+  if (a in categories):
+    hist[curRec][11] = (categories[a])
+    saveCSV()
+  
