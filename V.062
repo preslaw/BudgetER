@@ -1,0 +1,92 @@
+import csv
+import os
+
+file = open('CSV')
+
+fileReader = csv.reader(file)
+history = list(fileReader)
+
+categories ={"a":"(a)llegro",
+             "i":"(i)nne",
+             "j":"(j)anek",
+             "k":"(k)redyt",
+             "m":"(m)ieszkanie",
+             "r":"(r)achunki",
+             "o":"r(o)zrywka",
+             "p":"a(p)teka",
+             "s":"(s)amochód",
+             "z":"(z)akupy",
+             "w":"(w)płata",
+             "save":"(save)"
+}
+
+def showCategories():
+  print("")
+  print (categories.values())
+  #for a in categories:
+  #  print("  ",categories[a])
+  #print("")
+
+def showRecord(currentRecord):
+  print('#',currentRecord," / ",recordsNumber)
+  for a in range(len(history[currentRecord])):
+    print(str(a)+".",history[currentRecord][a])
+    
+def sumaAll(history):
+  sumaOut = 0
+  sumaIn = 0
+  for a in range(1,len(history)):
+    if (float(history[a][3])>0):
+      sumaIn+=float(history[a][3])
+    else:
+      sumaOut+=float(history[a][3])
+  print("in:",round(sumaIn,2)," out:",round(sumaOut,2),
+        " balance: ",round(sumaIn+sumaOut,2))
+  input('click for more...')
+  
+def saveCSV():
+    outputFile = open('csv_updated', mode='w')
+    outputWriter = csv.writer(outputFile)
+    for a in history:
+      outputWriter.writerow(a)
+      
+def showCategoriesSum():
+  os.system('clear')
+  for a in categories.values():
+    suma = 0
+    for b in hist:
+      if (b[11]==a):
+        suma+=round((float(b[3])),2)
+    print ("suma:", a, round(suma,2))
+  input()
+  
+
+currentRecord =1
+recordsNumber = len(history)-1
+
+showRecord(currentRecord)
+
+while True:
+  os.system('clear')
+  showRecord(currentRecord)
+  showCategories()
+  a = input('(<)previous (>)next s(u)ma')
+  if (a =='.' or a ==''):
+    if (currentRecord<recordsNumber):
+      currentRecord+=1;
+      showRecord(currentRecord)
+    else:
+      currentRecord=1
+      showRecord(currentRecord)
+  if (a ==','):
+    if (currentRecord>1):
+      currentRecord-=1
+      showRecord(currentRecord)
+    else:
+      currentRecord = recordsNumber
+      showRecord(currentRecord)
+  if (a=='u'):
+    showCategoriesSum()
+  if (a in categories):
+    history[currentRecord][10] = (categories[a])
+    saveCSV()
