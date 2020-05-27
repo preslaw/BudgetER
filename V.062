@@ -54,8 +54,8 @@ def showCategoriesSum():
   os.system('clear')
   for a in categories.values():
     suma = 0
-    for b in hist:
-      if (b[11]==a):
+    for b in history:
+      if (b[10]==a):
         suma+=round((float(b[3])),2)
     print ("suma:", a, round(suma,2))
   input()
